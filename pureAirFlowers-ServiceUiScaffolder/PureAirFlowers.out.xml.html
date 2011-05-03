@@ -1,13 +1,16 @@
 <html xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
 <head>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>WS Form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EasySOA Core - PureAirFlowers Service</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>PureAirFlowers</h2>
-<h3>
-  		location : http://192.168.2.157:9010/PureAirFlowers</h3>
+<div id="header">
+<b>PureAirFlowers</b> Service</div>
+<div id="container">
+<h1>Service location</h1>
+<p>http://192.168.2.157:9010/PureAirFlowers</p>
   
 
 
@@ -34,7 +37,8 @@
   
   
     
-<h3>Operation getOrdersNumber</h3>
+<h1>Operation <b>getOrdersNumber</b>
+</h1>
 <script type="text/javascript">
 					function submitgetOrdersNumberForm(form){ 
     					var xhr;
@@ -91,32 +95,28 @@
 				
 				</script>
 <form name="getOrdersNumber" method="get" action="" enctype="text/plain">
-			
-			Input fields : <br>
+<h2>Input fields</h2>
     
-<table border="1">
+<table>
 <tr>
-<td>Field type</td><td>Name</td><td>Value</td>
+<th style="width: 20%">Field type</th><th style="width: 20%">Name</th><th>Value</th>
 </tr>
 <tr>
-<td>xs:string</td><td>ClientId : </td><td><input type="text" size="100" name="ClientId"></td>
+<td>xs:string</td><td>ClientId</td><td><input type="text" name="ClientId"></td>
 </tr>
 </table>
-<br>
-			Output fields : <br>
+<h2>Output fields</h2>
     
-<table border="1">
+<table>
 <tr>
-<td>Field type</td><td>Name</td><td>Value</td>
+<th style="width: 20%">Field type</th><th style="width: 20%">Name</th><th>Value</th>
 </tr>
 <tr>
-<td>xs:int</td><td>ordersNumber : </td><td><input type="text" size="100" name="ordersNumber" disabled=""></td>
+<td>xs:int</td><td>ordersNumber</td><td><input type="text" name="ordersNumber" disabled=""></td>
 </tr>
 </table>
-<br>
 </form>
 <input type="button" value="Submit" OnClick="submitgetOrdersNumberForm('getOrdersNumber');">
-<br>
   
   
     
@@ -136,5 +136,6 @@
     
   
 
+</div>
 </body>
 </html>

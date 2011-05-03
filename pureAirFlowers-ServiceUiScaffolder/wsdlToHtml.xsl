@@ -6,23 +6,32 @@
 	<xsl:template match="wsdl:definitions">	
 		<html>
 			<head>
-				<title>WS Form</title>
-				<link rel="stylesheet" href="style.css"/>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>EasySOA Core - <xsl:value-of select="@name"/> Service</title>
+        <link rel="stylesheet" href="style.css"/>    
 			</head>
-	  		<body>
-	  			<!-- Web service name -->
-	  			<h2><xsl:value-of select="@name"/></h2>
-	  			<h3><xsl:call-template name="service-address" mode="header"/></h3>
+			<body>
+
+	  	<!-- Web service name -->
+      <div id="header"><b><xsl:value-of select="@name"/></b> Service</div>
+      
+      <div id="container">
+
+        <h1>Service location</h1>
+        <p><xsl:call-template name="service-address" mode="header"/></p>
+
 				<!-- Web service endpoint-->
 				<xsl:key name="baseElements" match="xsd:element" use="@type"/>
 				<xsl:key name="complexTypes" match="xsd:complexType" use="@name"/>
 				<xsl:apply-templates/>
-		  	</body>
+				
+      </div>
+      </body>
 	  	</html>
   	</xsl:template>
 
   	<xsl:template name="service-address" mode="header">
-  		location : <xsl:value-of select="wsdl:service/wsdl:port/soap:address/@location"/>
+  		<xsl:value-of select="wsdl:service/wsdl:port/soap:address/@location"/>
   	</xsl:template>
   	
   	<xsl:template name="formFields">
@@ -41,22 +50,22 @@
   		<xsl:param name="readOnly"/>
   	    <!--param : <xsl:value-of select="$elementName"/><br/>-->
 	  	<!--complextype name : <xsl:value-of select="key('complexTypes', $elementName)/@name"/>-->
-		<table border="1">
+		<table>
 		<tr>
-			<td>Field type</td>
-			<td>Name</td>
-			<td>Value</td>
+	    <th style="width: 20%">Field type</th>
+	    <th style="width: 20%">Name</th>
+	    <th>Value</th>
 		</tr>
 		<xsl:for-each select="key('complexTypes', $elementName)/xsd:sequence/xsd:element">
 		   	<tr>
 				<td><xsl:value-of select="@type"/></td>
-				<td><xsl:value-of select="@name"/> : </td>
+				<td><xsl:value-of select="@name"/></td>
       			<xsl:choose>
         			<xsl:when test="$readOnly = false">
-						<td><input type='text' size="100" name='{@name}'/></td>		        
+						<td><input type='text' name='{@name}'/></td>		        
 			        </xsl:when>
         			<xsl:otherwise>
-						<td><input type='text' size="100" name='{@name}' disabled=""/></td>
+						<td><input type='text' name='{@name}' disabled=""/></td>
         			</xsl:otherwise>
       			</xsl:choose>
 		   	</tr>
@@ -68,7 +77,7 @@
 	<!-- for each operation, create an HTML form -->  	
   	<xsl:template match="wsdl:portType/wsdl:operation">
   		<xsl:variable name="operationName"><xsl:value-of select="@name"/></xsl:variable>
-  		<h3>Operation <xsl:value-of select="$operationName"/></h3>
+        <h1>Operation <b><xsl:value-of select="$operationName"/></b></h1>
 				<!-- ATTENTION : Nom du(des) champ(s) de retour en dur dans le code javascript !!! -->
 				<!-- A modifier pour rendre la génération du formulaire dynamique -->
 				<script type="text/javascript">
@@ -125,31 +134,32 @@
    						xhr.send(null); 
 					}
 				<!-- <![CDATA[...]]> -->
-				</script>  		
+				</script>
+				
   		<form name='{$operationName}' method="get" action="" enctype='text/plain'>
-			<!-- parameters input fields -->
-			Input fields : <br/>
-			<xsl:apply-templates select="wsdl:input"/>
-			<xsl:variable name="inMessName"><xsl:apply-templates select="wsdl:input/@message"/></xsl:variable>
-			<!--input message name : <xsl:value-of select="$inMessName"/><br/>--> 
-			<xsl:call-template name="formFields">
-				<xsl:with-param name="messageName" select="$inMessName"/>
-				<xsl:with-param name="readOnly" select="false()"/>
-			</xsl:call-template>
-			<!-- output fields -->
-			<br/>
-			Output fields : <br/>
-			<xsl:apply-templates select="wsdl:output"/>
-			<xsl:variable name="outMessName"><xsl:apply-templates select="wsdl:output/@message"/></xsl:variable>			
-			<!--output message name : <xsl:value-of select="$outMessName"/><br/>-->
-			<xsl:call-template name="formFields">
-				<xsl:with-param name="messageName" select="$outMessName"/>
-				<xsl:with-param name="readOnly" select="true()"/>
-			</xsl:call-template>
-			<br/>
+    		
+			  <!-- parameters input fields -->
+			  <h2>Input fields</h2>
+			  <xsl:apply-templates select="wsdl:input"/>
+			  <xsl:variable name="inMessName"><xsl:apply-templates select="wsdl:input/@message"/></xsl:variable>
+			  <!--input message name : <xsl:value-of select="$inMessName"/><br/>--> 
+			  <xsl:call-template name="formFields">
+				  <xsl:with-param name="messageName" select="$inMessName"/>
+				  <xsl:with-param name="readOnly" select="false()"/>
+			  </xsl:call-template>
+			
+			  <!-- output fields -->
+			  <h2>Output fields</h2>
+			  <xsl:apply-templates select="wsdl:output"/>
+			  <xsl:variable name="outMessName"><xsl:apply-templates select="wsdl:output/@message"/></xsl:variable>			
+			  <!--output message name : <xsl:value-of select="$outMessName"/><br/>-->
+			  <xsl:call-template name="formFields">
+				  <xsl:with-param name="messageName" select="$outMessName"/>
+				  <xsl:with-param name="readOnly" select="true()"/>
+			  </xsl:call-template>
+			  
   		</form>
-		<input type="button" value="Submit" OnClick="submit{$operationName}Form('{$operationName}');"/>
-		<br/>  		
+		<input type="button" value="Submit" OnClick="submit{$operationName}Form('{$operationName}');"/>		
   	</xsl:template>
 
   	<!-- Service, port & address template -->
