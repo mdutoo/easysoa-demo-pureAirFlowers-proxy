@@ -182,6 +182,7 @@
 
   <!-- Modules -->
   <modules>
+  	<module>../pureAirFlowers-easysoa-demo-cxf-server</module>
   	<module>../pureAirFlowers-autoRearmFuseIntent</module>
   	<module>../pureAirFlowers-logIntent</module>  	
   	<module>../pureAirFlowers-ServiceUiScaffolderProxy</module>
@@ -218,8 +219,6 @@
       </plugins>
     </pluginManagement>
   </build>-->
-
-
 
   <!--  -->
   <build>
